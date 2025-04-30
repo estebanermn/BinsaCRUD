@@ -3,7 +3,8 @@
     ViewData["Title"] = "Clientes";
 }
 
-<h1>Clientes ..</h1>
+<h1 id="titleCode"></h1>
+
 <div class="bd-example">
 
     <a class="btn btn-success" asp-action="Form">Nuevo</a>
@@ -21,7 +22,7 @@ else
     <table class="table table-hover" id="clientesTable">
         <thead>
             <tr>
-                <th scope="col">#</th>
+                <th scope="col">#Código</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Domicilio</th>
                 <th scope="col">Código Postal</th>
@@ -50,15 +51,23 @@ else
 @section Scripts {
     <script>
         let selectedId = null;
+        let titleCodes = document.getElementById('titleCode');
 
         document.addEventListener('DOMContentLoaded', ()=>{
             const rows = document.querySelectorAll('#clientesTable tbody tr');
+
 
             rows.forEach(row=>{
                 row.addEventListener('click', () => {
                     rows.forEach(r => r.classList.remove('table-active'));
                     row.classList.add('table-active');
-                      selectedId = row.getAttribute('data-id');
+                    selectedId = row.getAttribute('data-id');
+
+                    const codigo = row.children[0].textContent;
+                    const nombre = row.children[1].textContent; // o código si tienes otra columna
+
+                    titleCodes.innerText = `Cliente: ${codigo} - ${nombre}`;
+
                 });
             });
         });

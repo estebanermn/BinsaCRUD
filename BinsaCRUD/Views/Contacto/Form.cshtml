@@ -4,35 +4,54 @@
     ViewData["Title"] = Model.Id == 0 ? "Nuevo Contacto" : "Editar Contacto";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="card">
+    <div class="card-header">
+        <h2>@ViewData["Title"]</h2>
 
-<form asp-action="Form" asp-route-id="@Model.Id" method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
-
-    <input type="hidden" asp-for="Id" />
-    <input type="hidden" asp-for="ClienteId" />
-
-
-    <div class="mb-3">
-        <label asp-for="Nombre" class="form-label"></label>
-        <input asp-for="Nombre" class="form-control" />
-        <span asp-validation-for="Nombre" class="text-danger"></span>
     </div>
+    <div class="card-body">
+        <h5 class="card-title"></h5>
+        <form asp-action="Form" asp-route-id="@Model.Id" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
 
-    <div class="mb-3">
-        <label asp-for="Telefono" class="form-label"></label>
-        <input asp-for="Telefono" class="form-control" />
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ClienteId" id="clientId" />
+
+
+            <div class="mb-3">
+                <label asp-for="Nombre" class="form-label"></label>
+                <input asp-for="Nombre" type="text" placeholder="Ingrese Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Telefono" class="form-label">Télefono</label>
+                <input asp-for="Telefono" placeholder="Ingrese número de télefono" type="tel" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" type="email" placeholder='ejemplo@gmail.com' class="form-control" />
+            </div>
+
+            <button type="submit" class="btn btn-success">Guardar</button>
+            <a class="btn btn-secondary" onclick="returPage()">Cancelar</a>
+        </form>
+
     </div>
+</div>
 
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email"  class="form-control" />
-    </div>
 
-    <button type="submit" class="btn btn-success">Guardar</button>
-    <a asp-action="Index" asp-controller="Contacto" asp-route-clienteId="@ViewBag.ClienteId" class="btn btn-secondary">Cancelar</a>
-</form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        function returPage(){
+             let clienteId = document.getElementById("clientId");
+             console.log(clienteId)
+             console.log(clienteId.value)
+             window.location.href = '/Contacto/BackPage/' + clienteId.value;
+        }
+    </script>
+
 }

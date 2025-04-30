@@ -72,5 +72,10 @@ namespace BinsaCRUD.Controllers
             await _contactoDAO.DeleteContactoByCliente(id);
             return RedirectToAction(nameof(Index), new { clienteId = contacto.ClienteId });
         }
+
+        public IActionResult BackPage(int id)
+        {
+            return RedirectToAction(nameof(Index), new { clienteId = id });
+        }
     }
 }
