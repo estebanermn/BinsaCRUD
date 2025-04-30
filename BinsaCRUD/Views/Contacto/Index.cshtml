@@ -1,0 +1,85 @@
+﻿@model IEnumerable<ContactoCliente>
+@{
+    ViewData["Title"] = "Clientes";
+}
+
+<h2>Contactos de @ViewBag.ClienteNombre</h2>
+<p>Cliente ID: @ViewBag.ClienteId</p>
+
+<div class="bd-example">
+
+    <a class="btn btn-success" asp-controller="Contacto" asp-action="Form" asp-route-clienteId="@ViewBag.ClienteId" asp-route-id="0">Nuevo</a>
+    <button type="button" class="btn btn-light" onclick="edit()">Editar</button>
+    <button type="button" class="btn btn-danger" onclick="remove()">Eliminar</button>
+    
+</div>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No hay contactos registrados para este contacto.</p>
+}
+else
+{
+    <table class="table table-hover" id="contactosTable">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Télefono</th>
+                <th scope="col">Email</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr data-id="@item.Id">
+                    <th scope="row">@item.Id</th>
+                    <td>@item.Nombre</td>
+                    <td>@item.Telefono</td>
+                    <td>@item.Email</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@section Scripts {
+    <script>
+        let selectedId = null;
+
+        document.addEventListener('DOMContentLoaded', ()=>{
+            const rows = document.querySelectorAll('#contactosTable tbody tr');
+
+            rows.forEach(row=>{
+                row.addEventListener('click', () => {
+                    rows.forEach(r => r.classList.remove('table-active'));
+                    row.classList.add('table-active');
+                      selectedId = row.getAttribute('data-id');
+                });
+            });
+        });
+
+        function edit() {
+            if(!selectedId) {
+                alert('Seleccione un contacto para editar.');
+                return;
+            }
+             window.location.href = '/Contacto/Form/' + selectedId;
+        }
+
+        function remove(){
+            if(!selectedId){
+                alert('Seleccione un contacto para eliminar.');
+                return;
+            }
+            if(confirm('¿Desea eliminar este cliente?')){
+                window.location.href = '/Contacto/Delete/' + selectedId;
+            }
+        }
+
+    </script>
+}

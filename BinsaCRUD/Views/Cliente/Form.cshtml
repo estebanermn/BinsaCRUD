@@ -1,0 +1,41 @@
+﻿@model Cliente
+
+@{
+    ViewData["Title"] = Model.Id == 0 ? "Nuevo Cliente" : "Editar Cliente";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Form" asp-route-id="@Model.Id" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Domicilio" class="form-label"></label>
+        <input asp-for="Domicilio" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CodigoPostal" class="form-label"></label>
+        <input asp-for="CodigoPostal" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Poblacion" class="form-label"></label>
+        <input asp-for="Poblacion" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
